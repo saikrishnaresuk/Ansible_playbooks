@@ -1,0 +1,19 @@
+---
+
+- hosts: test
+  connection: ssh
+  
+  tasks:
+    - name: Install webserver
+      action: yum name=httpd state=present
+    
+    - name: Installing git
+      action: yum name=git state=present
+
+    - name: Installing maven
+      action: yum name=maven state=present
+      tags: abc
+        
+    - name: Installing tree
+      action: yum name=tree state=present
+      tags: abc      

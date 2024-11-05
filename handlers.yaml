@@ -1,0 +1,12 @@
+---
+ - hosts: dev
+   connection: ssh
+   
+   tasks:
+     - name: installing webserver
+       action: yum name=httpd state=present
+       notify: restart httpd
+
+   handlers:
+     - name: restart httpd
+       service: name=httpd state=started       
