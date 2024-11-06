@@ -1,0 +1,11 @@
+---
+- hosts: dev
+  connection: ssh
+
+  tasks:
+
+    - name: Installing pip
+      yum: name=python-pip state=present
+
+    - name: install Numpy
+      pip: name=Numpy  
