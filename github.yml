@@ -1,0 +1,10 @@
+---
+- hosts: dev
+  connection: ssh
+  
+  tasks:
+    - name: getting code from github
+      git:
+        repo: "https://github.com/saikrishnaresuk/one.git"
+        dest: "resuk"  
+
