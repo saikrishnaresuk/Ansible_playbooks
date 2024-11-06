@@ -1,0 +1,12 @@
+---
+- hosts: dev
+  connection: ssh
+  tasks:
+    - name: Install git
+      command: yum install git -y
+
+    - name: getting code from github
+      git:
+        repo: 'https://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@github.com/saikrishnaresuk/CSK.git'
+        dest: "check"
+        version: "whistlepodu"
