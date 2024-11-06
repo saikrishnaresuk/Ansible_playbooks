@@ -1,0 +1,11 @@
+---
+- hosts: dev
+  connection: ssh
+
+  tasks:
+    - name: git version
+      command: git -v
+      register: abc
+
+    - debug:
+        msg: "slave server git version is {{abc.stdout}}" 
