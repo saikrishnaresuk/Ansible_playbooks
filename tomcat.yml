@@ -1,0 +1,34 @@
+---
+
+- hosts: dev
+  connection: ssh
+
+
+  tasks:
+    - name: Installing the dependencies
+      yum: name=java-1.8.0-openjdk state=present
+
+ 
+    - name: download tomcat from dlcd
+      get_url:
+        url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.96/bin/apache-tomcat-9.0.96.tar.gz"
+        dest: "/root"
+
+    - name: untar the file
+      command: tar -zxvf apache-tomcat-9.0.96.tar.gz     
+
+    - name: allow permissions
+      copy:
+        src: "context.xml"
+        dest: "/root/apache-tomcat-9.0.96/webapps/manager/META-INF/context.xml"
+
+    - name: set credentials
+      copy:
+        src: "tomcat-users.xml"
+        dest: "/root/apache-tomcat-9.0.96/conf/tomcat-users.xml"  
+  
+        
+    - name: start the tomcat
+      shell: nohup /root/apache-tomcat-9.0.96/bin/startup.sh
+
+
