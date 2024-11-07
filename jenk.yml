@@ -1,0 +1,47 @@
+---
+- hosts: test
+  become: yes
+
+  tasks:
+    - name: Install Git, Java 1.8, and Maven on slave servers
+      yum:
+        name:
+          - git
+          - java-17-amazon-corretto-jmods  
+          - java-1.8.0
+          - maven
+        state: present
+
+    - name: Download Jenkins repository
+      get_url:
+        url: "https://pkg.jenkins.io/redhat-stable/jenkins.repo"
+        dest: "/etc/yum.repos.d/jenkins.repo"
+        mode: '0644'
+
+    - name: Import Jenkins key
+      rpm_key:
+        state: present
+        key: "https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
+
+    - name: Install Jenkins
+      yum:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins Service
+      service:
+        name: jenkins
+        state: started
+      ignore_errors: true
+      register: jenkins_start
+
+    - name: Check Jenkins service status
+      command: systemctl status jenkins
+      register: jenkins_status
+      ignore_errors: true
+
+    - name: Display Jenkins service status
+      debug:
+        msg: "{{ jenkins_status.stdout }}"
+
+
